@@ -2,19 +2,32 @@
 namespace src\controllers;
 
 use \core\Controller;
+use \src\handlers\LoginHandler;
+use \src\handlers\PostHandler;
 
 class HomeController extends Controller {
 
+    private $loggedUser;
+
+    public function __construct() {
+        $this->loggedUser = LoginHandler::checkLogin();
+
+        if ($this->loggedUser === false) {            
+            $this->redirect('/login');
+        }
+
+    }
+
     public function index() {
-        $this->render('home', ['nome' => 'Bonieky']);
-    }
 
-    public function sobre() {
-        $this->render('sobre');
-    }
+        $feed = PostHandler::getHomeFeed(
+            $this->loggedUser->id
+        );
 
-    public function sobreP($args) {
-        print_r($args);
+        $this->render('home', [
+            'loggedUser' => $this->loggedUser,
+            'feed' => $feed
+        ]);
     }
 
 }
