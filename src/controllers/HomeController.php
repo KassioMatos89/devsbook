@@ -2,7 +2,7 @@
 namespace src\controllers;
 
 use \core\Controller;
-use \src\handlers\LoginHandler;
+use \src\handlers\UserHandler;
 use \src\handlers\PostHandler;
 
 class HomeController extends Controller {
@@ -10,7 +10,7 @@ class HomeController extends Controller {
     private $loggedUser;
 
     public function __construct() {
-        $this->loggedUser = LoginHandler::checkLogin();
+        $this->loggedUser = UserHandler::checkLogin();
 
         if ($this->loggedUser === false) {            
             $this->redirect('/login');
@@ -19,9 +19,12 @@ class HomeController extends Controller {
     }
 
     public function index() {
+        // Pegando page para fazer a paginação
+        $page = intval(filter_input(INPUT_GET, 'page'));
 
         $feed = PostHandler::getHomeFeed(
-            $this->loggedUser->id
+            $this->loggedUser->id,
+            $page
         );
 
         $this->render('home', [
