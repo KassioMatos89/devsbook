@@ -89,7 +89,7 @@ class UserHandler {
                     $newUser->name = $userData['name'];
                     $newUser->avatar = $userData['avatar'];
 
-                    $user->fololowers[] = $newUser;
+                    $user->followers[] = $newUser;
                 }
 
                 // following
@@ -130,6 +130,32 @@ class UserHandler {
         ])->execute();
 
         return $token;
+    }
+
+    public static function isFollowing($from, $to) {
+        $data = UserRelation::select()
+            ->where('user_from', $from)
+            ->where('user_to', $to)
+        ->one();
+
+        if($data) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function follow($from, $to) {
+        UserRelation::insert([
+            'user_from' => $from,
+            'user_to' => $to
+        ])->execute();
+    }
+
+    public static function unfollow($from, $to) {
+        UserRelation::delete()
+            ->where('user_from', $from)
+            ->where('user_to', $to)
+        ->execute();
     }
 
 }
