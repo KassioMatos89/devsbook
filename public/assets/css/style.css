@@ -428,6 +428,50 @@ header .head-side {
 .button:hover {
     background-color:#477dbb;
 }
+/* CONFIG PERFIL*/
+.form-config div:first-child {
+    margin-top: 20px;
+}
+
+.form-config div:nth-child(1) {
+    margin-bottom: 10px;
+}
+
+.form-config div:nth-child(2) {
+    margin-bottom: 20px;
+}
+
+form .input {
+    font-size:15px;
+    height:40px;
+    width: 100%;
+    outline: 0;
+    border:0;
+    background-color:white;
+    border-radius:10px;
+    padding:15px;
+}
+
+form .input:focus {
+    background-color:#DDD;
+}
+
+/* FLASH MESSAGE */
+.flash-error {
+    border: 2px solid red;
+    background-color: red;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.flash-success {
+    border: 2px solid lightgreen;
+    background-color: lightgreen;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+}
 
 @media (max-width: 992px) {
     header .head-side-right {
