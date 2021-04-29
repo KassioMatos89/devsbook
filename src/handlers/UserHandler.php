@@ -69,6 +69,7 @@ class UserHandler {
             $user->id = $data['id'];
             $user->name = $data['name'];
             $user->email = $data['email'];
+            $user->password = $data['password'];
             $user->birthdate = $data['birthdate'];
             $user->city = $data['city'];
             $user->work = $data['work'];
@@ -133,15 +134,20 @@ class UserHandler {
         return $token;
     }
 
-    public static function updateProfile($id, $name, $birthdate, $email, $city = NULL, $work = NULL /* $password */) {
-        User::update()
-            ->set('name', $name)
-            ->set('birthdate', $birthdate)
-            ->set('email', $email)
-            ->set('city', $city)
-            ->set('work', $work)
-            ->where('id', $id)
-        ->execute();
+    public static function updateUser($fields, $idUser) {
+        if(count($fields) > 0) {
+            $update = User::update();
+
+            foreach($fields as $fieldName => $fieldValue) {
+                if($fieldName == 'password') {
+                    $fieldValue = password_hash($fieldValue, PASSWORD_DEFAULT);
+                }
+
+                $update->set($fieldName, $fieldValue);
+            }
+
+            $update->where('id', $idUser)->execute();
+        }
     }
 
     public static function isFollowing($from, $to) {

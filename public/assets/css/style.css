@@ -429,16 +429,20 @@ header .head-side {
     background-color:#477dbb;
 }
 /* CONFIG PERFIL*/
-.form-config div:first-child {
+.config-form div:first-child {
     margin-top: 20px;
 }
 
-.form-config div:nth-child(1) {
+.config-form div:nth-child(1) {
     margin-bottom: 10px;
 }
 
-.form-config div:nth-child(2) {
+.config-form div:nth-child(2) {
     margin-bottom: 20px;
+}
+
+.config-form .image-edit {
+    max-width: 150px;
 }
 
 form .input {

@@ -8,26 +8,28 @@
         <div class="row">
             <div class="column pr-5">
 
-                <h1>Configurações <?=$searchTerm;?></h1>
+                <h1>Configurações</h1>
 
                 <div class="config-form">
 
-                    <form class ="form-config" method="POST" action="<?=$base;?>/config">
+                    <form class ="config-form" enctype="multipart/form-data" method="POST" action="<?=$base;?>/config">
 
                         <?php if(!empty($flash)): ?>
                             <div class="flash-error"><?php echo $flash; ?></div>
                         <?php endif ?>
                         
                         <div class="fild-avatar">
-                            <div>Novo Avatar</div>
+                            <div>Novo Avatar:</div>
                             <div>
-                                <input type="file">
+                                <input type="file" name="avatar"> </br></br>
+                                <img class="image-edit" src="<?=$base;?>/media/avatars/<?=$user->avatar;?>">
                             </div>
                         </div>
                         <div class="fild-cover">
-                            <div>Nova Capa</div>
+                            <div>Nova Capa:</div>
                             <div>
-                                <input type="file">
+                                <input type="file" name="cover"> </br> </br>
+                                <img class="image-edit" src="<?=$base;?>/media/covers/<?=$user->cover;?>">
                             </div>
                         </div>
 
@@ -80,7 +82,7 @@
                         <div class="fild-repeat-password">
                             <div>Repita Senha:</div>
                             <div class="input-fild-repeat-password">
-                                <input class="input" type="password" name="repeat-password">
+                                <input class="input" type="password" name="passwordConfirm">
                             </div>
                         </div>
 
