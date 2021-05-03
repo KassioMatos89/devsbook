@@ -3,6 +3,7 @@ namespace src\handlers;
 
 use \src\models\Post;
 use \src\models\PostLike;
+use \src\models\PostComment;
 use \src\models\User;
 use \src\models\UserRelation;
 
@@ -52,7 +53,11 @@ class PostHandler {
             $newPost->liked = self::isLiked($postItem['id'], $loggedUserId);
 
             // TODO: 4.2 Preencher informações de COMMENTS
-            $newPost->comments = [];
+            $newPost->comments = PostComment::select()->where('id_post', $postItem['id'])->get();
+            foreach($newPost->comments as $key => $comment) {
+                $newPost->comments[$key]['user'] = User::select()->where('id', $comment['id_user'])->one();
+            }
+
             $posts[] = $newPost;
         }
 
@@ -84,6 +89,15 @@ class PostHandler {
             'id_post' => $id,
             'id_user' => $loggedUserId,
             'created_at' => date('Y-m-d H:i:s')
+        ])->execute();
+    }
+
+    public static function addComment($id, $txt, $loggedUser) {
+        PostComment::insert([
+            'id_post' => $id,
+            'id_user' => $loggedUser,
+            'created_at' => date('Y-m-d H:i:s'),
+            'body' => $txt
         ])->execute();
     }
 
@@ -165,5 +179,33 @@ class PostHandler {
         }
 
         return $photos;
+    }
+
+    public static function delete($id, $loggedUserId) {
+        // 1. Verificar se o post existe e se é do usuário logado;
+        $post = Post::select()
+            ->where('id', $id)
+            ->where('id_user', $loggedUserId)
+        ->get();
+
+        if(count($post) > 0) {
+            $post = $post[0];
+
+            // 2. Deletar os likes e comments
+            PostLike::delete()->where('id_post', $id)->execute();
+            PostComment::delete()->where('id_post', $id)->execute();
+
+            // 3. Se a foto for type 'photo', deletar o arquivo também;
+            if($post['type'] === 'photo') {
+                $img = __DIR__.'/../../public/media/uploads/'.$post['body'];
+                if(file_exists($img)) {
+                    unlink($img);
+                }
+            }
+
+            // 4. Deletar o post
+            Post::delete()->where('id', $id)->execute();
+        }
+        
     }
 }

@@ -6,8 +6,8 @@
         </div>
     </div>
     <div class="box-body">
-        <a href=""><img src="<?=$base;?>/media/advertising/adv1.png" /></a>
-        <a href=""><img src="<?=$base;?>/media/advertising/adv2.jpg" /></a>
+        <a href=""><img src="https://alunos.b7web.com.br/media/courses/php.jpg" /></a>
+        <a href=""><img src="https://alunos.b7web.com.br/media/courses/laravel.jpg" /></a>
     </div>
 </div>
 <div class="box">
